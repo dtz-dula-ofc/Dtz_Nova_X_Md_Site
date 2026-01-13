@@ -37,6 +37,7 @@ body{
   overflow-x:hidden;
   position:relative;
   min-height:100vh;
+  background: var(--bg);
 }
 
 /* CYBER BACKGROUND */
@@ -382,6 +383,11 @@ main{
   text-align:center;
   padding:4rem 1rem 2rem;
   position:relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .hero h1{
   font-size:4rem;
@@ -470,25 +476,29 @@ main{
   letter-spacing: 3px;
 }
 
-/* Banner Section - Cyber Red */
+/* Enhanced Banner Section with New Image */
 .banner-section {
   position: relative;
   width: 100%;
-  max-width: 100%;
-  margin: 1.5rem 0 3rem 0;
+  max-width: 1200px;
+  margin: 1.5rem auto 3rem;
   padding: 0;
   overflow: hidden;
   border: 3px solid var(--accent);
-  border-radius: 5px;
-  box-shadow: 0 0 30px rgba(255,0,51,0.5),
-              inset 0 0 20px rgba(255,0,51,0.2);
-  animation: borderPulse 2s infinite ease-in-out;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(255,0,51,0.7),
+              0 0 80px rgba(255,0,51,0.3),
+              inset 0 0 30px rgba(255,0,51,0.2);
+  animation: borderPulse 3s infinite ease-in-out;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .banner-container {
   position: relative;
   width: 100%;
   overflow: hidden;
+  border-radius: 7px;
 }
 
 .banner-section img {
@@ -496,31 +506,241 @@ main{
   height: auto;
   display: block;
   object-fit: cover;
-  border-radius: 2px;
-  transition: transform 0.5s ease;
-  filter: contrast(1.2) saturate(1.3) brightness(0.9);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: contrast(1.2) saturate(1.4) brightness(0.85) hue-rotate(-5deg);
+  transform-origin: center center;
 }
 
 .banner-section:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08) rotateX(2deg) rotateY(2deg);
+  filter: contrast(1.4) saturate(1.6) brightness(0.9) hue-rotate(0deg);
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 0, 51, 0.1) 0%,
+    rgba(255, 0, 51, 0.05) 25%,
+    transparent 50%,
+    rgba(255, 0, 51, 0.05) 75%,
+    rgba(255, 0, 51, 0.1) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  animation: overlayScan 4s linear infinite;
+}
+
+.banner-border {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    transparent 0%,
+    rgba(255, 0, 51, 0.8) 25%,
+    rgba(255, 0, 51, 1) 50%,
+    rgba(255, 0, 51, 0.8) 75%,
+    transparent 100%
+  );
+  border-radius: 12px;
+  z-index: -1;
+  filter: blur(3px);
+  opacity: 0.7;
+  animation: borderFlow 3s linear infinite;
+}
+
+.banner-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--accent);
+  z-index: 2;
+}
+
+.banner-corner.tl {
+  top: -6px;
+  left: -6px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.banner-corner.tr {
+  top: -6px;
+  right: -6px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.banner-corner.bl {
+  bottom: -6px;
+  left: -6px;
+  border-right: none;
+  border-top: none;
+}
+
+.banner-corner.br {
+  bottom: -6px;
+  right: -6px;
+  border-left: none;
+  border-top: none;
+}
+
+.banner-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 0, 51, 0.4) 0%,
+    rgba(255, 0, 51, 0.2) 25%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  z-index: -2;
+  animation: glowPulse 4s ease-in-out infinite;
 }
 
 @keyframes borderPulse {
-  0% {
-    box-shadow: 0 0 20px rgba(255, 0, 51, 0.6),
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 0, 51, 0.7),
+                0 0 60px rgba(255, 0, 51, 0.3),
                 inset 0 0 20px rgba(255, 0, 51, 0.2);
-    border-color: rgba(255, 0, 51, 0.8);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 0, 51, 0.9),
-                inset 0 0 30px rgba(255, 0, 51, 0.3);
-    border-color: rgba(255, 100, 100, 1);
+    box-shadow: 0 0 50px rgba(255, 0, 51, 0.9),
+                0 0 100px rgba(255, 0, 51, 0.5),
+                inset 0 0 40px rgba(255, 0, 51, 0.3);
+  }
+}
+
+@keyframes borderFlow {
+  0% {
+    background-position: -200% 0;
   }
   100% {
-    box-shadow: 0 0 20px rgba(255, 0, 51, 0.6),
-                inset 0 0 20px rgba(255, 0, 51, 0.2);
-    border-color: rgba(255, 0, 51, 0.8);
+    background-position: 200% 0;
   }
+}
+
+@keyframes overlayScan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* New Image Showcase Section */
+.image-showcase {
+  padding: 2.5rem 1rem;
+  text-align: center;
+}
+
+.image-showcase h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(255,0,51,0.8);
+  font-family:'Orbitron', sans-serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.image-showcase > p {
+  color: var(--sub);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 2px;
+  font-family:'Rajdhani', sans-serif;
+  font-weight: 600;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.image-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 0, 51, 0.5);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.image-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent);
+  box-shadow: 0 15px 35px rgba(255, 0, 51, 0.4),
+              0 0 50px rgba(255, 0, 51, 0.2);
+}
+
+.image-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.image-card:hover img {
+  transform: scale(1.1);
+}
+
+.image-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 1.5rem;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.image-card:hover .image-card-overlay {
+  transform: translateY(0);
+}
+
+.image-card-overlay h3 {
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-family:'Orbitron', sans-serif;
+  letter-spacing: 2px;
+}
+
+.image-card-overlay p {
+  color: var(--sub);
+  font-size: 0.9rem;
+  font-family:'Rajdhani', sans-serif;
 }
 
 /* Features Section - Cyber Grid */
@@ -847,6 +1067,73 @@ footer{
   animation: rainFall linear infinite;
   filter: blur(1px);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+  }
+  
+  .pair-bot-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    min-width: 250px;
+  }
+  
+  .features-section h2,
+  .owners-section h2,
+  .contact-section h2,
+  .image-showcase h2 {
+    font-size: 2rem;
+  }
+  
+  .banner-section {
+    margin: 1rem auto;
+  }
+  
+  .team-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .owner-card {
+    flex: 0 0 calc(50% - 1rem);
+    max-width: 200px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .owner-card {
+    flex: 0 0 100%;
+    max-width: 200px;
+  }
+  
+  .banner-section {
+    border-width: 2px;
+  }
+}
 </style>
 </head>
 <body>
@@ -871,6 +1158,7 @@ footer{
   <div class="logo">DTZ</div>
   <ul>
     <li><a href="#home" onclick="closeSide()"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="#banner" onclick="closeSide()"><i class="fa-solid fa-image"></i> Gallery</a></li>
     <li><a href="#features" onclick="closeSide()"><i class="fa-solid fa-star"></i> Features</a></li>
     <li><a href="#owners" onclick="closeSide()"><i class="fa-solid fa-users"></i> Team</a></li>
     <li><a href="#contact" onclick="closeSide()"><i class="fa-solid fa-address-book"></i> Contact</a></li>
@@ -887,13 +1175,53 @@ footer{
   <h1>DTZ<span style="color: #fff;">_</span>NOVA<span style="color: #fff;">_</span>XMD</h1>
   <p class="cyber-text">CYBERNETIC WHATSAPP BOT SYSTEM</p>
   <a href="https://dtz-nova-x-md.onrender.com/" target="_blank" class="pair-bot-btn">
-    <i class="fa-solid fa-terminal"></i> Conect Mini Bot
+    <i class="fa-solid fa-terminal"></i> Connect Mini Bot
   </a>
 </section>
 
+<!-- Enhanced Banner Section with New Image -->
 <section class="banner-section" id="banner">
+  <div class="banner-glow"></div>
+  <div class="banner-border"></div>
   <div class="banner-container">
-    <img src="https://files.catbox.moe/fpyw9m.png" alt="DTZ NOVA XMD Banner">
+    <img src="https://files.catbox.moe/zbymi5.jpg" alt="DTZ NOVA XMD Cyber System" loading="lazy">
+    <div class="banner-overlay"></div>
+    <div class="banner-corner tl"></div>
+    <div class="banner-corner tr"></div>
+    <div class="banner-corner bl"></div>
+    <div class="banner-corner br"></div>
+  </div>
+</section>
+
+<!-- New Image Showcase Section -->
+<section class="image-showcase">
+  <h2>CYBER SYSTEM GALLERY</h2>
+  <p>Explore the advanced capabilities of DTZ Nova XMD system</p>
+  
+  <div class="image-grid">
+    <div class="image-card cyber-border">
+      <img src="https://files.catbox.moe/zbymi5.jpg" alt="DTZ System Interface" loading="lazy">
+      <div class="image-card-overlay">
+        <h3>SYSTEM INTERFACE</h3>
+        <p>Advanced cybernetic control panel with real-time monitoring</p>
+      </div>
+    </div>
+    
+    <div class="image-card cyber-border">
+      <img src="https://files.catbox.moe/fpyw9m.png" alt="DTZ Banner" loading="lazy">
+      <div class="image-card-overlay">
+        <h3>NETWORK BANNER</h3>
+        <p>Official DTZ Nova XMD network communication banner</p>
+      </div>
+    </div>
+    
+    <div class="image-card cyber-border">
+      <img src="https://files.catbox.moe/4z7t8v.png" alt="System Admin" loading="lazy">
+      <div class="image-card-overlay">
+        <h3>COMMAND CENTER</h3>
+        <p>System administration and control interface</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -905,37 +1233,37 @@ footer{
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-server"></i>
       <h3>GROUP MANAGEMENT</h3>
-      <p>Advanced tools for group moderation, administration, and organization.</p>
+      <p>Advanced tools for group moderation, administration, and organization with AI-powered automation.</p>
     </div>
     
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-satellite-dish"></i>
       <h3>SOCIAL DOWNLOADERS</h3>
-      <p>Download content from Instagram, TikTok, YouTube and other platforms.</p>
+      <p>Download content from Instagram, TikTok, YouTube, Facebook and 50+ other platforms instantly.</p>
     </div>
     
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-microchip"></i>
       <h3>CYBER TOOLS</h3>
-      <p>Powerful utilities for encryption, conversion, and data processing.</p>
+      <p>Military-grade encryption, format conversion, data processing, and system optimization tools.</p>
     </div>
     
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-gamepad"></i>
       <h3>ENTERTAINMENT</h3>
-      <p>Games, memes, and interactive entertainment features.</p>
+      <p>Interactive games, meme generation, music streaming, and entertainment modules.</p>
     </div>
     
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-robot"></i>
       <h3>AI INTERACTION</h3>
-      <p>Smart responses, chat automation, and intelligent features.</p>
+      <p>GPT-powered smart responses, natural language processing, and predictive chat automation.</p>
     </div>
 
     <div class="feature-card cyber-border">
       <i class="fa-solid fa-network-wired"></i>
       <h3>NETWORK SYSTEM</h3>
-      <p>Advanced networking capabilities and system integrations.</p>
+      <p>Advanced API integrations, multi-protocol support, and distributed network architecture.</p>
     </div>
   </div>
 </section>
@@ -945,9 +1273,21 @@ footer{
   
   <div class="team-grid">
     <div class="owner-card cyber-border">
-      <img src="https://files.catbox.moe/4z7t8v.png" alt="DTZ DULA">
+      <img src="https://files.catbox.moe/4z7t8v.png" alt="DTZ System Admin">
       <h3>SYSTEM ADMIN</h3>
       <p>PRIMARY DEVELOPER</p>
+    </div>
+    
+    <div class="owner-card cyber-border">
+      <img src="https://files.catbox.moe/zbymi5.jpg" alt="DTZ System Interface">
+      <h3>BOT SYSTEM</h3>
+      <p>MAIN INTERFACE</p>
+    </div>
+    
+    <div class="owner-card cyber-border">
+      <img src="https://files.catbox.moe/fpyw9m.png" alt="DTZ Network">
+      <h3>NETWORK</h3>
+      <p>COMMUNICATION LAYER</p>
     </div>
   </div>
 </section>
@@ -1089,7 +1429,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Typing effect for hero text
+// Enhanced typing effect with cyber animations
 window.addEventListener('DOMContentLoaded', () => {
   const heroTitle = document.querySelector('.hero h1');
   const heroText = document.querySelector('.hero p');
@@ -1102,26 +1442,80 @@ window.addEventListener('DOMContentLoaded', () => {
   heroTitle.textContent = '';
   heroText.textContent = '';
   
-  // Type title
+  // Create cyber text effect
+  const titleChars = titleText.split('');
+  const subChars = subText.split('');
+  
+  // Type title with cyber effect
   let i = 0;
   const typeTitle = setInterval(() => {
-    if (i < titleText.length) {
-      heroTitle.textContent += titleText.charAt(i);
+    if (i < titleChars.length) {
+      // Add character with random cyber effect
+      const charSpan = document.createElement('span');
+      charSpan.textContent = titleChars[i];
+      
+      // Random glow effect for some characters
+      if (Math.random() > 0.7) {
+        charSpan.style.textShadow = '0 0 15px var(--accent), 0 0 30px var(--accent)';
+        charSpan.style.color = '#ff3366';
+      }
+      
+      heroTitle.appendChild(charSpan);
       i++;
     } else {
       clearInterval(typeTitle);
+      
+      // Add final cyber effect to title
+      heroTitle.classList.add('cyber-text');
+      
       // Type subtitle after title is done
       let j = 0;
       const typeSub = setInterval(() => {
-        if (j < subText.length) {
-          heroText.textContent += subText.charAt(j);
+        if (j < subChars.length) {
+          heroText.textContent += subChars[j];
           j++;
         } else {
           clearInterval(typeSub);
+          
+          // Add cyber glow to subtitle
+          heroText.style.animation = 'textShine 2s ease-in-out infinite alternate';
         }
       }, 50);
     }
   }, 100);
+  
+  // Banner hover effect enhancement
+  const banner = document.querySelector('.banner-section');
+  const bannerImg = banner.querySelector('img');
+  
+  banner.addEventListener('mousemove', (e) => {
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    
+    // Parallax effect
+    bannerImg.style.transform = `scale(1.08) rotateX(${2 - y * 4}deg) rotateY(${x * 4 - 2}deg)`;
+    
+    // Dynamic glow
+    const glow = banner.querySelector('.banner-glow');
+    glow.style.background = `radial-gradient(
+      circle at ${x * 100}% ${y * 100}%,
+      rgba(255, 0, 51, 0.5) 0%,
+      rgba(255, 0, 51, 0.3) 25%,
+      transparent 70%
+    )`;
+  });
+  
+  banner.addEventListener('mouseleave', () => {
+    bannerImg.style.transform = 'scale(1.08) rotateX(0deg) rotateY(0deg)';
+  });
+});
+
+// Image lazy loading enhancement
+const images = document.querySelectorAll('img[loading="lazy"]');
+images.forEach(img => {
+  img.addEventListener('load', () => {
+    img.classList.add('loaded');
+  });
 });
 </script>
 
